@@ -33,8 +33,8 @@
             <p class="text-gray-600 mt-1">Simule seu empréstimo usando a Tabela Price</p>
         </header>
 
-        <!-- Seção de Inputs Principais -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+        <!-- Seção de Inputs Principais com Layout Responsivo -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
             <div>
                 <label for="valorSolicitado" class="block text-sm font-medium text-gray-700 mb-1">Valor Solicitado (R$)</label>
                 <input type="text" id="valorSolicitado" value="80.000,00" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
@@ -48,18 +48,22 @@
                 <input type="text" id="iof" value="2.579,77" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
             </div>
             <div>
+                <label for="valorSeguro" class="block text-sm font-medium text-gray-700 mb-1">Valor do Seguro (R$)</label>
+                <input type="text" id="valorSeguro" value="0,00" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+            </div>
+            <div class="sm:col-span-2 lg:col-span-2">
                 <label for="dataContratacao" class="block text-sm font-medium text-gray-700 mb-1">Data de Contratação</label>
                 <input type="date" id="dataContratacao" value="2025-03-28" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
             </div>
-            <div>
+            <div class="sm:col-span-2 lg:col-span-2">
                 <label for="dataPrimeiraParcela" class="block text-sm font-medium text-gray-700 mb-1">Data da 1ª Parcela</label>
                 <input type="date" id="dataPrimeiraParcela" value="2025-06-20" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
             </div>
-            <div>
+             <div class="sm:col-span-1 lg:col-span-2">
                 <label for="prazo" class="block text-sm font-medium text-gray-700 mb-1">Prazo (meses)</label>
                 <input type="number" id="prazo" value="72" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
             </div>
-             <div class="md:col-span-3">
+             <div class="sm:col-span-1 lg:col-span-2">
                 <label for="taxaJuros" class="block text-sm font-medium text-gray-700 mb-1">Taxa de Juros Mensal (%)</label>
                 <input type="text" id="taxaJuros" value="1,42" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
              </div>
@@ -73,7 +77,7 @@
 
         <!-- Seção de Resultados Principais -->
         <div id="resultado" class="space-y-6 mb-10" style="display: none;">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-center">
                  <div class="bg-gray-100 p-4 rounded-lg animate-fade-in">
                     <h2 class="text-md font-semibold text-gray-700">Valor Total Financiado:</h2>
                     <p id="valorTotalFinanciado" class="text-xl font-bold text-gray-900"></p>
@@ -82,12 +86,17 @@
                     <h2 class="text-md font-semibold">Valor da Parcela (Original):</h2>
                     <p id="valorParcela" class="text-xl font-bold"></p>
                 </div>
-                <div class="bg-gray-100 p-4 rounded-lg animate-fade-in">
-                    <h2 class="text-md font-semibold text-gray-700">Data da Última Parcela:</h2>
-                    <p id="dataUltimaParcela" class="text-xl font-bold text-gray-900"></p>
+                <div class="bg-red-50 border-l-4 border-red-500 text-red-800 p-4 rounded-lg animate-fade-in">
+                    <h2 class="text-md font-semibold">CET Mensal:</h2>
+                    <p id="cetMensal" class="text-xl font-bold"></p>
+                </div>
+                <div class="bg-red-50 border-l-4 border-red-500 text-red-800 p-4 rounded-lg animate-fade-in">
+                    <h2 class="text-md font-semibold">CET Anual:</h2>
+                    <p id="cetAnual" class="text-xl font-bold"></p>
                 </div>
             </div>
 
+            <!-- Tabela de Amortização -->
             <div class="animate-fade-in">
                 <h2 class="text-xl font-semibold text-gray-800 mb-4 text-center">Tabela de Amortização</h2>
                 <div class="overflow-x-auto max-h-[400px] border border-gray-200 rounded-lg">
@@ -113,7 +122,11 @@
             <h2 class="text-xl md:text-2xl font-bold text-gray-800 text-center">Calcular Antecipação de Parcelas</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
                 <div class="md:col-span-2">
-                    <label for="selectParcelas" class="block text-sm font-medium text-gray-700 mb-1">Escolha as Parcelas Futuras (segure Ctrl/Cmd para selecionar várias)</label>
+                    <label for="selectParcelas" class="block text-sm font-medium text-gray-700 mb-1">Escolha as Parcelas Futuras</label>
+                    <div class="flex items-center mb-2">
+                        <input type="checkbox" id="selectAllCheckbox" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                        <label for="selectAllCheckbox" class="ml-2 block text-sm text-gray-900">Selecionar todas as parcelas futuras</label>
+                    </div>
                     <select id="selectParcelas" multiple size="8" class="w-full p-2 bg-gray-50 border border-gray-300 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"></select>
                 </div>
                  <div class="space-y-4">
@@ -134,6 +147,12 @@
                 </div>
             </div>
         </div>
+
+        <!-- Rodapé com Assinatura -->
+        <footer class="text-center text-xs text-gray-400 mt-8 pt-4 border-t border-gray-200">
+            <p>Criado por Gabriel Natali &amp; Sofia (persona do Gemini) em 07/2025.</p>
+        </footer>
+
     </div>
 
     <script>
@@ -159,7 +178,6 @@
         }
         
         function toDate(dateStr) {
-            // Helper to prevent timezone issues by setting time to midday UTC
             const [year, month, day] = dateStr.split('-');
             return new Date(Date.UTC(year, month - 1, day, 12));
         }
@@ -169,12 +187,30 @@
             return Math.round((date2 - date1) / oneDay);
         }
 
+        /**
+         * Calcula o Custo Efetivo Total (CET) usando o método da bisseção (TIR).
+         */
+        function calcularCET(valorLiberado, valorParcela, numParcelas) {
+            if (valorLiberado <= 0 || valorParcela <= 0 || numParcelas <= 0) return 0;
+            let taxaMin = 0.0, taxaMax = 1.0, taxaMedia, vp, iteracoes = 0;
+            const precisao = 1e-6, maxIteracoes = 1000;
+            do {
+                taxaMedia = (taxaMin + taxaMax) / 2;
+                if (taxaMedia === 0) break;
+                vp = valorParcela * ((1 - Math.pow(1 + taxaMedia, -numParcelas)) / taxaMedia);
+                if (vp > valorLiberado) taxaMin = taxaMedia; else taxaMax = taxaMedia;
+                iteracoes++;
+            } while (Math.abs(vp - valorLiberado) > precisao && iteracoes < maxIteracoes);
+            return taxaMedia;
+        }
+
         // Main Calculation Function
         function calcularFinanciamento() {
             amortizationData = []; // Reset data
             const valorSolicitado = parseLocalFloat(document.getElementById('valorSolicitado').value);
             const jurosCarencia = parseLocalFloat(document.getElementById('jurosCarencia').value);
             const iof = parseLocalFloat(document.getElementById('iof').value);
+            const valorSeguro = parseLocalFloat(document.getElementById('valorSeguro').value);
             const taxaJurosPercentual = parseLocalFloat(document.getElementById('taxaJuros').value);
             const prazoMeses = parseInt(document.getElementById('prazo').value, 10);
             const dataPrimeiraParcela = document.getElementById('dataPrimeiraParcela').value;
@@ -184,7 +220,7 @@
                 return;
             }
 
-            const valorTotalFinanciado = valorSolicitado + jurosCarencia + iof;
+            const valorTotalFinanciado = valorSolicitado + jurosCarencia + iof + valorSeguro;
             const taxaJurosDecimal = taxaJurosPercentual / 100;
 
             if (taxaJurosDecimal > 0) {
@@ -194,45 +230,47 @@
             }
             
             const primeiraParcelaDate = toDate(dataPrimeiraParcela);
-            const ultimaParcelaDate = new Date(primeiraParcelaDate);
-            ultimaParcelaDate.setMonth(ultimaParcelaDate.getMonth() + prazoMeses - 1);
+            
+            const cetMensal = calcularCET(valorSolicitado, pmtGlobal, prazoMeses);
+            const cetAnual = Math.pow(1 + cetMensal, 12) - 1;
 
             document.getElementById('valorTotalFinanciado').textContent = formatCurrency(valorTotalFinanciado);
             document.getElementById('valorParcela').textContent = formatCurrency(pmtGlobal);
-            document.getElementById('dataUltimaParcela').textContent = ultimaParcelaDate.toLocaleDateString('pt-BR');
+            document.getElementById('cetMensal').textContent = (cetMensal * 100).toFixed(4).replace('.', ',') + ' %';
+            document.getElementById('cetAnual').textContent = (cetAnual * 100).toFixed(2).replace('.', ',') + ' %';
 
             const tabelaBody = document.getElementById('tabelaAmortizacao');
-            tabelaBody.innerHTML = ''; 
-            let saldoDevedor = valorTotalFinanciado;
+            tabelaBody.innerHTML = '';
             const selectParcelas = document.getElementById('selectParcelas');
             selectParcelas.innerHTML = '';
+            document.getElementById('selectAllCheckbox').checked = false; 
             
             const hoje = new Date();
-            hoje.setHours(0, 0, 0, 0); // Normalize today's date to midnight
+            hoje.setUTCHours(0, 0, 0, 0);
+            let saldoDevedor = valorTotalFinanciado;
 
             for (let mes = 1; mes <= prazoMeses; mes++) {
                 const vencimentoAtual = new Date(primeiraParcelaDate);
                 vencimentoAtual.setMonth(vencimentoAtual.getMonth() + mes - 1);
                 
-                amortizationData.push({ mes, vencimento: vencimentoAtual });
+                const juros = saldoDevedor * taxaJurosDecimal;
+                const amortizacao = pmtGlobal - juros;
+                saldoDevedor -= amortizacao;
 
-                // *** A LÓGICA ATUALIZADA ESTÁ AQUI ***
-                // Só adiciona a parcela na lista de antecipação se o vencimento for no futuro
+                if (mes === prazoMeses) saldoDevedor = 0;
+
+                amortizationData.push({ mes, vencimento: vencimentoAtual });
+                
                 if (vencimentoAtual > hoje) {
                     const option = document.createElement('option');
                     option.value = mes;
                     option.textContent = `Parcela ${mes} (Venc: ${vencimentoAtual.toLocaleDateString('pt-BR')})`;
                     selectParcelas.appendChild(option);
                 }
-                
-                const juros = saldoDevedor * taxaJurosDecimal;
-                const amortizacao = pmtGlobal - juros;
-                saldoDevedor -= amortizacao;
-                
-                if (mes === prazoMeses) saldoDevedor = 0;
 
+                // Adiciona a linha na tabela de amortização
                 const row = document.createElement('tr');
-                row.classList.add(vencimentoAtual < hoje ? 'text-gray-400' : 'text-gray-800'); // Style past due rows
+                row.classList.add(vencimentoAtual < hoje ? 'text-gray-400' : 'text-gray-800');
                 row.innerHTML = `
                     <td class="px-4 py-3 whitespace-nowrap text-sm">${mes}</td>
                     <td class="px-4 py-3 whitespace-nowrap text-sm">${vencimentoAtual.toLocaleDateString('pt-BR')}</td>
@@ -271,7 +309,7 @@
                 
                 const diasAdiantado = diffDays(dataPagamento, parcelaInfo.vencimento);
 
-                if (diasAdiantado > 0) { // Only calculate for early payments
+                if (diasAdiantado > 0) {
                     const valorPresente = taxaDiariaContrato > 0 ? pmtGlobal / Math.pow(1 + taxaDiariaContrato, diasAdiantado) : pmtGlobal;
                     valorTotalAntecipado += valorPresente;
                     valorTotalOriginal += pmtGlobal;
@@ -295,8 +333,23 @@
         document.getElementById('calcularBtn').addEventListener('click', calcularFinanciamento);
         document.getElementById('calcularAntecipacaoBtn').addEventListener('click', calcularAntecipacao);
         
-        ['valorSolicitado', 'jurosCarencia', 'iof', 'taxaJuros'].forEach(id => {
+        ['valorSolicitado', 'jurosCarencia', 'iof', 'valorSeguro', 'taxaJuros'].forEach(id => {
             document.getElementById(id).addEventListener('input', formatInputAsCurrency);
+        });
+
+        const selectAllCheckbox = document.getElementById('selectAllCheckbox');
+        const selectParcelas = document.getElementById('selectParcelas');
+
+        selectAllCheckbox.addEventListener('change', (e) => {
+            const isChecked = e.target.checked;
+            for (let i = 0; i < selectParcelas.options.length; i++) {
+                selectParcelas.options[i].selected = isChecked;
+            }
+        });
+
+        selectParcelas.addEventListener('change', () => {
+            const allSelected = selectParcelas.options.length > 0 && Array.from(selectParcelas.options).every(opt => opt.selected);
+            selectAllCheckbox.checked = allSelected;
         });
 
         // Initial Load
